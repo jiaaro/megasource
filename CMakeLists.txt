@@ -235,11 +235,13 @@ add_subdirectory("libs/SDL2" ${CMAKE_BINARY_DIR}/SDL2)
 set(MEGA_SDL2 SDL2)
 set(MEGA_SDL2MAIN SDL2main)
 
+if (NOT EMSCRIPTEN) # emscripten supports openal without linking
 message(STATUS "-----------------------------------------------------")
 message(STATUS "Configuring: openal-soft ${MEGA_OPENAL_VER}")
 message(STATUS "-----------------------------------------------------")
 add_subdirectory("libs/openal-soft" ${CMAKE_BINARY_DIR}/openal-soft)
 set(MEGA_OPENAL ${OPENAL_LIB_NAME})
+endif (NOT EMSCRIPTEN)
 
 message(STATUS "-----------------------------------------------------")
 message(STATUS "Configuring: libmodplug ${MEGA_MODPLUG_VER}")
@@ -321,6 +323,7 @@ else()
 endif()
 
 link_directories(${SDL_LINK_DIR})
+if (NOT EMSCRIPTEN)
 add_executable(megatest src/test.cpp)
 target_link_libraries(megatest ${MEGA_3P})
 
@@ -328,3 +331,4 @@ add_move_dll(megatest ${MEGA_MPEG123})
 add_move_dll(megatest ${MEGA_SDL2})
 add_move_dll(megatest ${MEGA_OPENAL})
 add_move_dll(megatest ${MEGA_LUA51})
+endif (NOT EMSCRIPTEN)

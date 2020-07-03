@@ -139,11 +139,14 @@ else()
   set(UNIX_OR_MAC_SYS OFF)
 endif()
 
-if (UNIX_OR_MAC_SYS AND NOT EMSCRIPTEN) # JavaScript does not yet have threading support, so disable pthreads when building for Emscripten.
+if (UNIX_OR_MAC_SYS OR EMSCRIPTEN) # JavaScript does not yet have threading support, so disable pthreads when building for Emscripten.
   set(SDL_PTHREADS_ENABLED_BY_DEFAULT ON)
 else()
   set(SDL_PTHREADS_ENABLED_BY_DEFAULT OFF)
 endif()
+
+# very hacky TODO remove
+add_definitions("-s USE_PTHREADS")
 
 # Default option knobs
 if(APPLE OR ARCH_64)
@@ -270,9 +273,9 @@ if(EMSCRIPTEN)
   # Emscripten/Javascript does not have assembly support, a dynamic library
   # loading architecture, low-level CPU inspection or multithreading.
   set(OPT_DEF_ASM FALSE)
-  set(SDL_SHARED_ENABLED_BY_DEFAULT OFF)
-  set(SDL_ATOMIC_ENABLED_BY_DEFAULT OFF)
-  set(SDL_THREADS_ENABLED_BY_DEFAULT OFF)
+  set(SDL_SHARED_ENABLED_BY_DEFAULT ON)
+  set(SDL_ATOMIC_ENABLED_BY_DEFAULT FALSE)
+  set(SDL_THREADS_ENABLED_BY_DEFAULT ON)
   set(SDL_LOADSO_ENABLED_BY_DEFAULT OFF)
   set(SDL_CPUINFO_ENABLED_BY_DEFAULT OFF)
   set(SDL_DLOPEN_ENABLED_BY_DEFAULT OFF)
@@ -955,6 +958,7 @@ if(ANDROID)
   CheckPTHREAD()
 
 elseif(EMSCRIPTEN)
+  CheckPTHREAD()
   # Hide noisy warnings that intend to aid mostly during initial stages of porting a new
   # project. Uncomment at will for verbose cross-compiling -I/../ path info.
   add_definitions(-Wno-warn-absolute-paths)
