@@ -145,9 +145,6 @@ else()
   set(SDL_PTHREADS_ENABLED_BY_DEFAULT OFF)
 endif()
 
-# very hacky TODO remove
-add_definitions("-s USE_PTHREADS")
-
 # Default option knobs
 if(APPLE OR ARCH_64)
   if(NOT "${CMAKE_OSX_ARCHITECTURES}" MATCHES "arm")
@@ -274,7 +271,7 @@ if(EMSCRIPTEN)
   # loading architecture, low-level CPU inspection or multithreading.
   set(OPT_DEF_ASM FALSE)
   set(SDL_SHARED_ENABLED_BY_DEFAULT ON)
-  set(SDL_ATOMIC_ENABLED_BY_DEFAULT FALSE)
+  set(SDL_ATOMIC_ENABLED_BY_DEFAULT ON)
   set(SDL_THREADS_ENABLED_BY_DEFAULT ON)
   set(SDL_LOADSO_ENABLED_BY_DEFAULT OFF)
   set(SDL_CPUINFO_ENABLED_BY_DEFAULT OFF)

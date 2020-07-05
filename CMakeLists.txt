@@ -228,6 +228,7 @@ message(STATUS "-----------------------------------------------------")
 add_subdirectory("libs/freetype-${MEGA_FREETYPE_VER}" ${CMAKE_BINARY_DIR}/freetype)
 set(MEGA_FREETYPE freetype)
 
+if (NOT EMSCRIPTEN) # emscripten supports openal and sdl2 without linking
 message(STATUS "-----------------------------------------------------")
 message(STATUS "Configuring: SDL2 ${MEGA_SDL2_VER}")
 message(STATUS "-----------------------------------------------------")
@@ -235,7 +236,6 @@ add_subdirectory("libs/SDL2" ${CMAKE_BINARY_DIR}/SDL2)
 set(MEGA_SDL2 SDL2)
 set(MEGA_SDL2MAIN SDL2main)
 
-if (NOT EMSCRIPTEN) # emscripten supports openal without linking
 message(STATUS "-----------------------------------------------------")
 message(STATUS "Configuring: openal-soft ${MEGA_OPENAL_VER}")
 message(STATUS "-----------------------------------------------------")
